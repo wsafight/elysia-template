@@ -1,0 +1,22 @@
+{
+  "name": "elysia-prisma-jwt-auth",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts",
+    "drizzle:push": "drizzle-kit push",
+    "studio": "npx drizzle-kit studio"
+  },
+  "dependencies": {
+    "@elysiajs/jwt": "1.2.0",
+    "@elysiajs/swagger": "^1.2.0",
+    "better-sqlite3": "11.8.1",
+    "drizzle-orm": "0.38.4",
+    "elysia": "1.2.0"
+  },
+  "devDependencies": {
+    "bun-types": "1.2.0",
+    "drizzle-kit": "0.30.2"
+  },
+  "module": "src/index.js"
+}
