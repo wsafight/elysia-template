@@ -1,5 +1,5 @@
 import jwt from "@elysiajs/jwt";
-import Elysia from "elysia";
+import type Elysia from "elysia";
 import { JWT_NAME } from "../config/constant";
 import { useSqlite } from "../lib/db";
 
@@ -8,9 +8,9 @@ const authPlugin = (app: Elysia) =>
     .use(
       jwt({
         name: JWT_NAME,
-        secret: 'todo'
+        secret: "todo",
         //  Bun.env.JWT_SECRET!,
-      })
+      }),
     )
     .derive(async ({ jwt, cookie: { accessToken }, set }) => {
       if (!accessToken?.value) {

@@ -1,11 +1,12 @@
 {
-  "name": "elysia-prisma-jwt-auth",
-  "version": "1.0.50",
+  "name": "elysia-template",
+  "version": "0.0.1",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
     "drizzle:push": "drizzle-kit push",
-    "studio": "npx drizzle-kit studio"
+    "studio": "npx drizzle-kit studio",
+    "check": "bunx biome check --write src/*"
   },
   "dependencies": {
     "@elysiajs/jwt": "1.2.0",
@@ -15,6 +16,7 @@
     "elysia": "1.2.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "bun-types": "1.2.0",
     "drizzle-kit": "0.30.2"
   },

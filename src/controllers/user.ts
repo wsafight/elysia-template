@@ -1,8 +1,8 @@
-import { Elysia } from "elysia";
-import { authPlugin } from "../plugins/auth";
 import jwt from "@elysiajs/jwt";
+import { Elysia } from "elysia";
 import { JWT_NAME } from "../config/constant";
 import { useSqlite } from "../lib/db";
+import { authPlugin } from "../plugins/auth";
 import { UserService } from "../services/user";
 
 export const userController = new Elysia({ prefix: "/user" })
@@ -12,7 +12,7 @@ export const userController = new Elysia({ prefix: "/user" })
       name: JWT_NAME,
       secret: "todo",
       exp: "12h",
-    })
+    }),
   )
   .get("/login", async ({ cookie: { accessToken }, jwt }) => {
     const value = await jwt.sign({ sub: "1" });
