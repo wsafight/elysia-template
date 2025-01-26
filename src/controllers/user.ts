@@ -7,14 +7,17 @@ import { UserService } from "../services/user";
 
 export const userController = new Elysia({ prefix: "/user" })
   .decorate("userService", new UserService({ db: useSqlite() }))
-  .get("/login", async ({ cookie: { accessToken }, jwt }) => {
+  .get("/users", async ({ userService }) => {
+    return userService.getUsers();
+  })
+  .get("/login", async ({ cookie: { accessToken }, jwt, userService }) => {
     const value = await jwt.sign({ sub: "1" });
     accessToken.set({
       value,
       httpOnly: true,
       maxAge: 7 * 86400,
     });
-    return "Successfully logged in";
+    return userService.createUser({ firstName: "John", lastName: "Doe" });
   })
   .use(authPlugin)
   .get("/logout", async ({ cookie: { accessToken } }) => {
