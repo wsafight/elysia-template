@@ -1,6 +1,4 @@
-import { jwt } from "@elysiajs/jwt";
 import { Elysia } from "elysia";
-import { JWT_NAME } from "../config/constant";
 import { useSqlite } from "../lib/db";
 import { authPlugin } from "../plugins/auth";
 import { UserService } from "../services/user";

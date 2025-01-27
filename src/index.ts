@@ -23,9 +23,6 @@ function bootstrap() {
   );
 
   app.group("/api", (app) => app.use(userController)).listen(3000);
-  console.log(
-    `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
-  );
   return app;
 }
 

@@ -1,4 +1,3 @@
-
 import type Elysia from "elysia";
 import { useSqlite } from "../lib/db";
 
@@ -17,6 +16,8 @@ const authPlugin = (app: Elysia) =>
     }
 
     const userId = jwtPayload.sub;
+
+    // todo, 此处密码不应该返回，后续需要处理
     const user = await useSqlite().query.users.findFirst({
       where: (users, { eq }) => eq(users.id, Number(userId)),
     });
