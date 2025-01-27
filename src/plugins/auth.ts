@@ -21,7 +21,7 @@ const authPlugin = (app: Elysia) =>
     const user = await useSqlite().query.users.findFirst({
       where: (users, { eq }) => eq(users.id, Number(userId)),
       columns: {
-        password: false //ignored
+        password: false, //ignored
       },
     });
 

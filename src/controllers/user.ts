@@ -1,32 +1,27 @@
 import { Elysia, t } from "elysia";
 import { useSqlite } from "../lib/db";
+import { registerSchema } from "../model/auth";
 import { authPlugin } from "../plugins/auth";
 import { UserService } from "../services";
-
-const registerSchema = t.Object({
-  name: t.String({ minLength: 6 }),
-  password: t.String({ minLength: 8 }),
-  email: t.String({ format: "email" }),
-});
 
 export const userController = new Elysia({ prefix: "/user" })
   .decorate("userService", new UserService({ db: useSqlite() }))
   .post(
     "/register",
     async ({ body: { name, email, password }, userService, error }) => {
-      const current = await userService.hasEmailUser({email});
+      const current = await userService.hasEmailUser({ email });
       if (current) {
         return error(401, "email 已被使用");
       }
 
       const hashPassword = await Bun.password.hash(
-        `${password}${Bun.env.passwordHalt ?? "halt"}`
+        `${password}${Bun.env.passwordHalt ?? "halt"}`,
       );
       return userService.createUser({ name, email, password: hashPassword });
     },
     {
       body: registerSchema,
-    }
+    },
   )
   .post(
     "/loginByEmail",
@@ -42,7 +37,10 @@ export const userController = new Elysia({ prefix: "/user" })
         return error(401, "email或者密码输错");
       }
 
-      const isPasswordVerify = await Bun.password.verify(`${password}${Bun.env.passwordHalt ?? "halt"}`, current.password!)
+      const isPasswordVerify = await Bun.password.verify(
+        `${password}${Bun.env.passwordHalt ?? "halt"}`,
+        current.password,
+      );
       if (!isPasswordVerify) {
         return error(401, "email或者密码输错");
       }
@@ -60,7 +58,7 @@ export const userController = new Elysia({ prefix: "/user" })
         password: t.String({ minLength: 8 }),
         email: t.String({ format: "email" }),
       }),
-    }
+    },
   )
   .use(authPlugin)
   .post("/logout", async ({ cookie: { accessToken } }) => {

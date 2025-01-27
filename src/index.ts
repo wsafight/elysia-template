@@ -16,13 +16,15 @@ function bootstrap() {
   }
 
   // 安全防护
-  app.use(helmet({
-    contentSecurityPolicy: {
-      directives: {
-        "script-src": ["'self'", "cdn.jsdelivr.net"],
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          "script-src": ["'self'", "cdn.jsdelivr.net"],
+        },
       },
-    },
-  }));
+    }),
+  );
 
   // 配置跨域
   app.use(cors());

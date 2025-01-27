@@ -1,4 +1,5 @@
 import type { Sqlite } from "../lib/db";
+import type { Register } from "../model/auth";
 import { users } from "../schema";
 
 class UserService {
@@ -17,7 +18,7 @@ class UserService {
   }
 
   public loginByPassword({
-    email
+    email,
   }: {
     email: string;
   }) {
@@ -32,9 +33,9 @@ class UserService {
   }
 
   public async hasEmailUser({
-    email
+    email,
   }: {
-    email: string
+    email: string;
   }): Promise<boolean> {
     const current = await this.db.query.users.findFirst({
       where: (users, { eq }) => eq(users.email, email),
@@ -45,15 +46,7 @@ class UserService {
     return !!current?.id;
   }
 
-  public createUser({
-    name,
-    email,
-    password,
-  }: {
-    name: string;
-    email: string;
-    password: string;
-  }) {
+  public createUser({ name, email, password }: Register) {
     return this.db
       .insert(users)
       .values({
