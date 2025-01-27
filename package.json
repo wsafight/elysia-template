@@ -9,11 +9,13 @@
     "check": "bunx biome check --write src/*"
   },
   "dependencies": {
+    "@elysiajs/cors": "^1.2.0",
     "@elysiajs/jwt": "1.2.0",
     "@elysiajs/swagger": "1.2.0",
     "better-sqlite3": "11.8.1",
     "drizzle-orm": "0.38.4",
-    "elysia": "1.2.0"
+    "elysia": "1.2.0",
+    "elysia-helmet": "^2.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
