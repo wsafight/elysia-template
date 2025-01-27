@@ -10,23 +10,58 @@ class UserService {
   public getUser(id: string) {
     return this.db.query.users.findFirst({
       where: (users, { eq }) => eq(users.id, Number(id)),
+      columns: {
+        password: false, //ignored
+      },
     });
   }
 
-  public getUsers() {
-    return this.db.query.users.findMany();
+  public loginByPassword({
+    email
+  }: {
+    email: string;
+  }) {
+    return this.db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.email, email),
+      columns: {
+        id: true,
+        email: true,
+        password: true,
+      },
+    });
+  }
+
+  public async hasEmailUser({
+    email
+  }: {
+    email: string
+  }): Promise<boolean> {
+    const current = await this.db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.email, email),
+      columns: {
+        id: true,
+      },
+    });
+    return !!current?.id;
   }
 
   public createUser({
-    firstName,
-    lastName,
-  }: { firstName: string; lastName: string }) {
+    name,
+    email,
+    password,
+  }: {
+    name: string;
+    email: string;
+    password: string;
+  }) {
     return this.db
       .insert(users)
       .values({
-        firstName,
-        lastName,
+        name,
+        email,
+        password,
         role: "guest",
+        nickName: "",
       })
       .returning({ id: users.id });
   }

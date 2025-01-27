@@ -1,22 +1,69 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 import { useSqlite } from "../lib/db";
 import { authPlugin } from "../plugins/auth";
 import { UserService } from "../services";
 
+const registerSchema = t.Object({
+  name: t.String({ minLength: 6 }),
+  password: t.String({ minLength: 8 }),
+  email: t.String({ format: "email" }),
+});
+
 export const userController = new Elysia({ prefix: "/user" })
   .decorate("userService", new UserService({ db: useSqlite() }))
-  .get("/login", async ({ cookie: { accessToken }, jwt, userService }) => {
-    
-    const value = await jwt.sign({ sub: "1" });
-    accessToken.set({
-      value,
-      httpOnly: true,
-      maxAge: 7 * 86400,
-    });
-    return userService.createUser({ firstName: "John", lastName: "Doe" });
-  })
+  .post(
+    "/register",
+    async ({ body: { name, email, password }, userService, error }) => {
+      const current = await userService.hasEmailUser({email});
+      if (current) {
+        return error(401, "email 已被使用");
+      }
+
+      const hashPassword = await Bun.password.hash(
+        `${password}${Bun.env.passwordHalt ?? "halt"}`
+      );
+      return userService.createUser({ name, email, password: hashPassword });
+    },
+    {
+      body: registerSchema,
+    }
+  )
+  .post(
+    "/loginByEmail",
+    async ({
+      error,
+      cookie: { accessToken },
+      jwt,
+      userService,
+      body: { email, password },
+    }) => {
+      const current = await userService.loginByPassword({ email });
+      if (!current) {
+        return error(401, "email或者密码输错");
+      }
+
+      const isPasswordVerify = await Bun.password.verify(`${password}${Bun.env.passwordHalt ?? "halt"}`, current.password!)
+      if (!isPasswordVerify) {
+        return error(401, "email或者密码输错");
+      }
+
+      const value = await jwt.sign({ sub: current.id });
+      accessToken.set({
+        value,
+        httpOnly: true,
+        maxAge: 12 * 60 * 60 * 1000,
+      });
+      return "登录成功";
+    },
+    {
+      body: t.Object({
+        password: t.String({ minLength: 8 }),
+        email: t.String({ format: "email" }),
+      }),
+    }
+  )
   .use(authPlugin)
-  .get("/logout", async ({ cookie: { accessToken } }) => {
+  .post("/logout", async ({ cookie: { accessToken } }) => {
     accessToken.remove();
     return "Successfully logged out";
   })

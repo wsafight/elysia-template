@@ -20,6 +20,9 @@ const authPlugin = (app: Elysia) =>
     // todo, 此处密码不应该返回，后续需要处理
     const user = await useSqlite().query.users.findFirst({
       where: (users, { eq }) => eq(users.id, Number(userId)),
+      columns: {
+        password: false //ignored
+      },
     });
 
     if (!user) {
