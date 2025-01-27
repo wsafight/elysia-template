@@ -1,5 +1,9 @@
 以下对比使用 oha 工具
 
+当前版本:
+node: 23.6.1
+bun:  1.2.0
+
 ## 比对两者原生的 hello world
 
 node: Requests/sec:	61193.6822
