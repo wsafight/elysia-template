@@ -5,10 +5,8 @@ import { UserService } from "../services";
 
 export const userController = new Elysia({ prefix: "/user" })
   .decorate("userService", new UserService({ db: useSqlite() }))
-  .get("/users", async ({ userService }) => {
-    return userService.getUsers();
-  })
   .get("/login", async ({ cookie: { accessToken }, jwt, userService }) => {
+    
     const value = await jwt.sign({ sub: "1" });
     accessToken.set({
       value,
