@@ -1,11 +1,11 @@
-# JWT Authentication with Bun(Elysia)
+# elysia-template
 
 ## Tech Stack
 
 - Bun
 - Elysia
-- Prisma
-- Postgresql
+- Drizzle ORM
+- SQLite
 - Typescript
 
 ## Setup
@@ -16,39 +16,24 @@ Install dependencies
 bun i
 ```
 
-Copy `.env.example` to `.env`
-
-```
-cp .env.example .env
-```
-
 Sync prisma schema with db
 
 ```
-bun run prisma:push
+bun run drizzle:push
 ```
 
-## Route
+## tools
 
-- POST `/api/auth/sign-up` - Create new account
-- POST `/api/auth/sign-in` - Sign in to existing account
-- GET `/api/auth/me` - Fetch current user
-- POST `/api/auth/logout` - Logout current user
-- POST `/api/auth/refresh` - Create new pair of access & refresh token from existing refresh token
+- Development environment usage swagger.Open /swagger
 
-## Authentication work flow
+    ```bash
+    bun run start
+    ```
+    ![alt text](images/swagger.webp)
 
-- Sign in
-
-  - Verify user email & password
-  - Create pair of access token and refresj token
-  - Save refresh token in db for further uses
-  - Set access token and refresh token in response cookies
-
-- Protected route `/me`
-  - verify jwt access token in plugin
-  - If access token is missing raise 401 status code error
-  - If access token is available but incorrect/expire raise 403 status code error
-  - In case of 403 error client can request for `/refresh` to generate new pair of access/refresh token
-  - In success case find the user from db and set using `derive` function
-  - Now `/me` can get user and return as a response
+- Drizzle Studio is a new way for you to explore SQL database.
+    
+    ```bash
+    bun run studio
+    ```
+    ![alt text](images/drizzle-studio.webp)

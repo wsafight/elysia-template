@@ -2,7 +2,7 @@ import jwt from "@elysiajs/jwt";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import { JWT_NAME } from "./config/constant";
-import { userController } from "./controllers/user";
+import { userController } from "./controllers";
 
 const isProduction = Bun.env.NODE_ENV === "production";
 
@@ -16,9 +16,9 @@ function bootstrap() {
   app.use(
     jwt({
       name: JWT_NAME,
+      // TODO: 使用环境变量 Bun.env.JWT_SECRET
       secret: "todo",
       exp: "12h",
-      //  Bun.env.JWT_SECRET!,
     }),
   );
 
