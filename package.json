@@ -4,9 +4,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
+    "build": "bun run scripts/build.ts",
     "drizzle:push": "drizzle-kit push",
     "studio": "npx drizzle-kit studio",
-    "check": "bunx biome check --write src/*"
+    "check": "bunx biome check --write src/* scripts/*"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.2.0",

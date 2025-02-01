@@ -6,20 +6,16 @@ import { helmet } from "elysia-helmet";
 import { JWT_NAME } from "./config/constant";
 import { userController } from "./controllers";
 
-const isProduction = Bun.env.NODE_ENV === "production";
-
 function bootstrap() {
   const app = new Elysia();
-
-  if (!isProduction) {
-    app.use(swagger());
-  }
+  app.use(swagger());
 
   // 安全防护
   app.use(
     helmet({
       contentSecurityPolicy: {
         directives: {
+          // current for swagger
           "script-src": ["'self'", "cdn.jsdelivr.net"],
         },
       },
