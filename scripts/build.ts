@@ -1,10 +1,10 @@
 import { EOL } from "node:os";
 import { $ } from "bun";
 
-const source = "./src/index.ts";
-const target = "./src/index.prod.ts";
+const sourceFile = "./src/index.ts";
+const targetFile = "./src/index.prod.ts";
 
-const indexFile = Bun.file(source);
+const indexFile = Bun.file(sourceFile);
 
 // bun remove useless code for
 const content = await indexFile.text();
@@ -24,8 +24,14 @@ const fixedContent = content
   .filter(Boolean)
   .join(EOL);
 
-await Bun.write(target, fixedContent);
+await Bun.write(targetFile, fixedContent);
 
-await $`bun build --compile --minify-whitespace --minify-syntax --target bun --outfile server ${target}`;
+const targetOS = Bun.env.target
 
-await Bun.file(target).delete();
+if (targetOS === 'linux') {
+  await $`bun build --compile --minify-whitespace --minify-syntax --bytecode --target=bun-linux-x64-modern --outfile server ${targetFile}`;
+} else {
+  // 本地机器
+  await $`bun build --compile --minify-whitespace --minify-syntax --bytecode --target bun --outfile server ${targetFile}`;
+}
+await Bun.file(targetFile).delete();

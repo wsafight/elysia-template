@@ -1,11 +1,11 @@
 import { Elysia, t } from "elysia";
-import { useSqlite } from "../lib/db";
+import { useSqlInstance } from "../lib/db";
 import { registerSchema } from "../model/auth";
 import { authPlugin } from "../plugins/auth";
 import { UserService } from "../services";
 
 export const userController = new Elysia({ prefix: "/user" })
-  .decorate("userService", new UserService({ db: useSqlite() }))
+  .decorate("userService", new UserService({ db: useSqlInstance() }))
   .post(
     "/register",
     async ({ body: { name, email, password }, userService, error }) => {

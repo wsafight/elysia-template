@@ -5,23 +5,24 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
     "build": "bun run scripts/build.ts",
+    "build:linux": "target=linux bun run scripts/build.ts",
     "drizzle:push": "drizzle-kit push",
     "studio": "npx drizzle-kit studio",
     "check": "bunx biome check --write src/* scripts/*"
   },
   "dependencies": {
-    "@elysiajs/cors": "^1.2.0",
+    "@elysiajs/cors": "1.2.0",
     "@elysiajs/jwt": "1.2.0",
     "@elysiajs/swagger": "1.2.0",
     "better-sqlite3": "11.8.1",
-    "drizzle-orm": "0.38.4",
-    "elysia": "1.2.0",
-    "elysia-helmet": "^2.0.0"
+    "drizzle-orm": "0.39.1",
+    "elysia": "1.2.11",
+    "elysia-helmet": "2.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "bun-types": "1.2.0",
-    "drizzle-kit": "0.30.2"
+    "bun-types": "1.2.2",
+    "drizzle-kit": "0.30.4"
   },
-  "module": "src/index.js"
+  "module": "src/index.ts"
 }

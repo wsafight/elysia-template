@@ -1,5 +1,5 @@
 import type Elysia from "elysia";
-import { useSqlite } from "../lib/db";
+import { useSqlInstance } from "../lib/db";
 
 const authPlugin = (app: Elysia) =>
   app.derive(async ({ jwt, cookie: { accessToken }, set }) => {
@@ -18,7 +18,7 @@ const authPlugin = (app: Elysia) =>
     const userId = jwtPayload.sub;
 
     // todo, 此处密码不应该返回，后续需要处理
-    const user = await useSqlite().query.users.findFirst({
+    const user = await useSqlInstance().query.users.findFirst({
       where: (users, { eq }) => eq(users.id, Number(userId)),
       columns: {
         password: false, //ignored
