@@ -1,5 +1,6 @@
 import { cors } from "@elysiajs/cors";
 import jwt from "@elysiajs/jwt";
+import { serverTiming } from "@elysiajs/server-timing";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import { helmet } from "elysia-helmet";
@@ -9,6 +10,7 @@ import { userController } from "./controllers";
 function bootstrap() {
   const app = new Elysia();
   app.use(swagger());
+  app.use(serverTiming());
 
   // 安全防护
   app.use(

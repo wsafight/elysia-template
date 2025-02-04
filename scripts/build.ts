@@ -19,6 +19,11 @@ const fixedContent = content
     if (item.includes("swagger")) {
       return "";
     }
+
+    if (item.includes("serverTiming")) {
+      return "";
+    }
+
     return item;
   })
   .filter(Boolean)
@@ -26,9 +31,9 @@ const fixedContent = content
 
 await Bun.write(targetFile, fixedContent);
 
-const targetOS = Bun.env.target
+const targetOS = Bun.env.target;
 
-if (targetOS === 'linux') {
+if (targetOS === "linux") {
   await $`bun build --compile --minify-whitespace --minify-syntax --bytecode --target=bun-linux-x64-modern --outfile server ${targetFile}`;
 } else {
   // 本地机器
