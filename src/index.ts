@@ -1,45 +1,29 @@
-import { cors } from "@elysiajs/cors";
-import jwt from "@elysiajs/jwt";
-import { serverTiming } from "@elysiajs/server-timing";
-import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
-import { helmet } from "elysia-helmet";
-import { JWT_NAME } from "./config/constant";
-import { userController } from "./controllers";
+import { setupControllers } from "./controllers";
+import { setupDevPlugins } from "./devPlugins";
+import { setupCors, setupHelmet, setupJwt } from "./plugins";
 
-function bootstrap() {
+const bootstrap = () => {
   const app = new Elysia();
-  app.use(swagger());
-  app.use(serverTiming());
+
+  setupDevPlugins(app);
+
+  app.get("/health", () => "ok");
 
   // 安全防护
-  app.use(
-    helmet({
-      contentSecurityPolicy: {
-        directives: {
-          // current for swagger
-          "script-src": ["'self'", "cdn.jsdelivr.net"],
-        },
-      },
-    }),
-  );
+  setupHelmet(app);
 
   // 配置跨域
-  app.use(cors());
+  setupCors(app);
 
   // JWT 验证
-  app.use(
-    jwt({
-      name: JWT_NAME,
-      // TODO: 使用环境变量 Bun.env.JWT_SECRET
-      secret: "todo",
-      exp: "12h",
-    }),
-  );
+  setupJwt(app);
 
-  app.group("/api", (app) => app.use(userController)).listen(3000);
+  setupControllers(app);
+
+  app.listen(3000);
   console.log("Server is running at http://localhost:3000");
   return app;
-}
+};
 
 bootstrap();

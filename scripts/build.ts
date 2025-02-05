@@ -15,12 +15,8 @@ const fixedContent = content
     if (item.trim().startsWith("//")) {
       return item;
     }
-    // remove swagger
-    if (item.includes("swagger")) {
-      return "";
-    }
-
-    if (item.includes("serverTiming")) {
+    // remove dev plugins
+    if (item.includes("setupDevPlugins")) {
       return "";
     }
 

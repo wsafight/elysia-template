@@ -8,7 +8,7 @@
     "build:linux": "target=linux bun run scripts/build.ts",
     "drizzle:push": "drizzle-kit push",
     "studio": "npx drizzle-kit studio",
-    "check": "bunx biome check --write src/* scripts/*"
+    "format": "bunx biome check --write src/* scripts/*"
   },
   "dependencies": {
     "@elysiajs/cors": "1.2.0",

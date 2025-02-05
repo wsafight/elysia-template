@@ -1,7 +1,7 @@
 import type Elysia from "elysia";
 import { useSqlInstance } from "../lib/db";
 
-const authPlugin = (app: Elysia) =>
+export const authPlugin = (app: Elysia) =>
   app.derive(async ({ jwt, cookie: { accessToken }, set }) => {
     if (!accessToken?.value) {
       // handle error for access token is not available
@@ -17,7 +17,6 @@ const authPlugin = (app: Elysia) =>
 
     const userId = jwtPayload.sub;
 
-    // todo, 此处密码不应该返回，后续需要处理
     const user = await useSqlInstance().query.users.findFirst({
       where: (users, { eq }) => eq(users.id, Number(userId)),
       columns: {
@@ -35,5 +34,3 @@ const authPlugin = (app: Elysia) =>
       user,
     };
   });
-
-export { authPlugin };
