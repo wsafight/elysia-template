@@ -3,6 +3,8 @@ import { useSqlInstance } from "../lib/db";
 import { registerSchema } from "../model/auth";
 import { authPlugin } from "../plugins/auth";
 import { UserService } from "../services";
+import jwt from "@elysiajs/jwt";
+import { JWT_NAME } from "../config/constant";
 
 export const userController = new Elysia({ prefix: "/user" })
   .decorate("userService", new UserService({ db: useSqlInstance() }))
@@ -28,9 +30,9 @@ export const userController = new Elysia({ prefix: "/user" })
     async ({
       error,
       cookie: { accessToken },
-      jwt,
       userService,
       body: { email, password },
+      loginJwt
     }) => {
       const current = await userService.loginByPassword({ email });
       if (!current) {
@@ -44,8 +46,9 @@ export const userController = new Elysia({ prefix: "/user" })
       if (!isPasswordVerify) {
         return error(401, "email或者密码输错");
       }
+      console.log('123', jwt)
 
-      const value = await jwt.sign({ sub: current.id });
+      const value = await loginJwt.sign({ sub: current.id });
       accessToken.set({
         value,
         httpOnly: true,
