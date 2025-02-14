@@ -5,7 +5,7 @@ import { registerSchema } from "../model/auth";
 import { authPlugin } from "../plugins/auth";
 import { UserService } from "../services";
 
-export const userController = new Elysia({ prefix: "/user" })
+export const UserController = new Elysia({ prefix: "/user" })
   .decorate("userService", new UserService({ db: useSqlInstance() }))
   .post(
     "/register",

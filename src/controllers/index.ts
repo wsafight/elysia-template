@@ -1,10 +1,11 @@
 import type Elysia from "elysia";
-import { todoController } from "./todo";
-import { userController } from "./user";
+import { TodoController } from "./todo";
+import { UserController } from "./user";
 
 export const setupControllers = (app: Elysia) => {
   app.group("/api", (app) => {
-    app.use(userController).use(todoController);
+    app.use(UserController);
+    app.use(TodoController);
     return app;
   });
 };

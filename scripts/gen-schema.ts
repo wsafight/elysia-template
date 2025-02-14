@@ -31,11 +31,11 @@ const content = Object.keys(schema)
         tableSchemaStr.push(
           `${item}: integer({ mode: "number" }).primaryKey({ autoIncrement: true })`,
         );
-      } else if (currentSchema === "createdTime") {
+      } else if (currentSchema === "time") {
         tableSchemaStr.push(
           `${item}: integer({ mode: "timestamp_ms" }).$defaultFn(() => new Date())`,
         );
-      } else if (currentSchema === "updatedTime") {
+      } else if (currentSchema === "time!") {
         tableSchemaStr.push(
           `${item}: integer({ mode: "timestamp_ms" }).$defaultFn(() => new Date()).$onUpdateFn(() => new Date())`,
         );

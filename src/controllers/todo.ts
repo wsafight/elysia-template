@@ -3,7 +3,7 @@ import { useSqlInstance } from "../lib/db";
 import { authPlugin } from "../plugins/auth";
 import { TodoService } from "../services";
 
-export const todoController = new Elysia({ prefix: "/todo" })
+export const TodoController = new Elysia({ prefix: "/todo" })
   .decorate("todoService", new TodoService({ db: useSqlInstance() }))
   .use(authPlugin)
   .post(
@@ -24,19 +24,19 @@ export const todoController = new Elysia({ prefix: "/todo" })
   )
   .post(
     "/add",
-    async ({ todoService, body: { description }, user }) => {
-      return todoService.add({ userId: user.id, description });
+    async ({ todoService, body: { description, isDone }, user }) => {
+      return todoService.add({ userId: user.id, description, isDone });
     },
     {
       body: t.Object({
-        description: t.String({ minLength: 3 }),
+        description: t.Optional(t.String()),
+        isDone: t.Optional(t.Boolean()),
       }),
     },
   )
-
   .post(
     "/update",
-    async ({ todoService, body: { id, description, isDone }, user }) => {
+    ({ todoService, body: { id, description, isDone }, user }) => {
       return todoService.update({ id, userId: user.id, description, isDone });
     },
     {

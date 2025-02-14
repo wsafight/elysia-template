@@ -2,12 +2,9 @@ import { and, eq } from "drizzle-orm";
 import type { Sqlite } from "../lib/db";
 import { todos } from "../schema";
 
-interface TodoChange {
-  description?: string;
-  id: number;
-  userId: number;
-  isDone?: boolean;
-}
+type SelectTodo = typeof todos.$inferSelect;
+type InsertTodo = typeof todos.$inferInsert;
+type UpdateTodo = InsertTodo & { id: number };
 
 class TodoService {
   private db: Sqlite;
@@ -23,7 +20,7 @@ class TodoService {
     pageSize: number;
     pageNumber: number;
     userId: number;
-  }) {
+  }): Promise<SelectTodo[]> {
     return this.db.query.todos.findMany({
       where: (todos, { eq }) => eq(todos.userId, userId),
       limit: pageSize,
@@ -31,18 +28,20 @@ class TodoService {
     });
   }
 
-  public add({ description, userId }: { description: string; userId: number }) {
+  public add({ userId, description, isDone }: InsertTodo) {
     return this.db
       .insert(todos)
       .values({
         userId,
         description,
+        isDone,
       })
       .returning({ id: todos.id });
   }
 
-  public update({ description, userId, id, isDone }: TodoChange) {
-    const changed: Partial<TodoChange> = {};
+  public update({ id, userId, description, isDone }: UpdateTodo) {
+    const changed: Partial<UpdateTodo> = {};
+
     if (typeof description === "string") {
       changed.description = description;
     }

@@ -37,3 +37,4 @@ bun run drizzle:push
     bun run studio
     ```
     ![alt text](images/drizzle-studio.webp)
+

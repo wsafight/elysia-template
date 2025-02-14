@@ -39,7 +39,7 @@
       "type": "boolean",
       "defaultVal": "false"
     },
-    "createdTime": "createdTime",
-    "updatedTime": "updatedTime"
+    "createdTime": "time",
+    "updatedTime": "time!"
   }
 }
