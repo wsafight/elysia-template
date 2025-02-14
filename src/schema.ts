@@ -6,9 +6,6 @@ import {
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 
-/**
- * This is a simple schema for a user table.
- */
 export const users = sqliteTable(
   "users",
   {
@@ -28,13 +25,11 @@ export const todos = sqliteTable(
     id: integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
     userId: integer({ mode: "number" }).notNull(),
     description: text().default("todo"),
-    isDone: integer({
-      mode: "boolean",
-    }).default(false),
+    isDone: integer({ mode: "boolean" }).default(false),
     createdTime: integer({ mode: "timestamp_ms" }).$defaultFn(() => new Date()),
     updatedTime: integer({ mode: "timestamp_ms" })
       .$defaultFn(() => new Date())
       .$onUpdateFn(() => new Date()),
   },
-  (t) => [index("IDX_userId").on(t.userId)],
+  (t) => [index("IDX_USERID").on(t.userId)],
 );

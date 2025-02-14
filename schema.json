@@ -1,6 +1,5 @@
 {
   "users": {
-    "_wrapper": "users",
     "id": "primaryKey",
     "name": {
       "type": "string",
@@ -16,13 +15,31 @@
     },
     "role": {
       "type": "enum",
-      "list": ["guest", "user", "admin"],
-      "default": "guest"
+      "enums": ["guest", "user", "admin"],
+      "defaultVal": "\"guest\""
     },
     "email": {
       "type": "string",
       "require": true,
       "uniqueIndex": "IDX_EMAIL"
     }
+  },
+  "todos": {
+    "id": "primaryKey",
+    "userId": {
+      "type": "number",
+      "require": true,
+      "index": "IDX_USERID"
+    },
+    "description": {
+      "type": "string",
+      "defaultVal": "\"todo\""
+    },
+    "isDone": {
+      "type": "boolean",
+      "defaultVal": "false"
+    },
+    "createdTime": "createdTime",
+    "updatedTime": "updatedTime"
   }
 }
