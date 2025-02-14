@@ -33,9 +33,13 @@ const content = Object.keys(schema)
         );
       } else if (currentSchema === "time") {
         tableSchemaStr.push(
-          `${item}: integer({ mode: "timestamp_ms" }).$defaultFn(() => new Date())`,
+          `${item}: integer({ mode: "timestamp_ms" })`,
         );
       } else if (currentSchema === "time!") {
+        tableSchemaStr.push(
+          `${item}: integer({ mode: "timestamp_ms" }).$defaultFn(() => new Date())`,
+        );
+      } else if (currentSchema === "time!!") {
         tableSchemaStr.push(
           `${item}: integer({ mode: "timestamp_ms" }).$defaultFn(() => new Date()).$onUpdateFn(() => new Date())`,
         );

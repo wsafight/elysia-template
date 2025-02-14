@@ -40,8 +40,8 @@
       "type": "boolean",
       "defaultVal": "false"
     },
-    "createdTime": "time",
-    "updatedTime": "time!"
+    "createdTime": "time!",
+    "updatedTime": "time!!"
   },
   "address": {
     "id": "primaryKey",
@@ -58,7 +58,7 @@
       "type": "string",
       "require": true
     },
-    "createdTime": "time",
-    "updatedTime": "time!"
+    "createdTime": "time!",
+    "updatedTime": "time!!"
   }
 }
