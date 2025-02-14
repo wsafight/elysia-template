@@ -1,10 +1,9 @@
 import { Elysia, t } from "elysia";
+import { JWT_AGE } from "../config/constant";
 import { useSqlInstance } from "../lib/db";
 import { registerSchema } from "../model/auth";
 import { authPlugin } from "../plugins/auth";
 import { UserService } from "../services";
-import jwt from "@elysiajs/jwt";
-import { JWT_NAME } from "../config/constant";
 
 export const userController = new Elysia({ prefix: "/user" })
   .decorate("userService", new UserService({ db: useSqlInstance() }))
@@ -32,7 +31,7 @@ export const userController = new Elysia({ prefix: "/user" })
       cookie: { accessToken },
       userService,
       body: { email, password },
-      loginJwt
+      loginJwt,
     }) => {
       const current = await userService.loginByPassword({ email });
       if (!current) {
@@ -43,16 +42,16 @@ export const userController = new Elysia({ prefix: "/user" })
         `${password}${Bun.env.passwordHalt ?? "halt"}`,
         current.password,
       );
+
       if (!isPasswordVerify) {
         return error(401, "email或者密码输错");
       }
-      console.log('123', jwt)
-
       const value = await loginJwt.sign({ sub: current.id });
       accessToken.set({
         value,
         httpOnly: true,
-        maxAge: 12 * 60 * 60 * 1000,
+        sameSite: "strict",
+        maxAge: JWT_AGE,
       });
       return "登录成功";
     },
