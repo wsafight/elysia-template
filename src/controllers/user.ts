@@ -1,7 +1,6 @@
 import { Elysia, t } from "elysia";
 import { JWT_AGE } from "../config/constant";
 import { useSqlInstance } from "../lib/db";
-import { registerSchema } from "../model/auth";
 import { authPlugin } from "../plugins/auth";
 import { UserService } from "../services";
 
@@ -21,7 +20,11 @@ export const UserController = new Elysia({ prefix: "/user" })
       return userService.createUser({ name, email, password: hashPassword });
     },
     {
-      body: registerSchema,
+      body: t.Object({
+        name: t.String({ minLength: 3 }),
+        email: t.String({ format: "email" }),
+        password: t.String({ minLength: 8 }),
+      }),
     },
   )
   .post(
@@ -68,6 +71,4 @@ export const UserController = new Elysia({ prefix: "/user" })
   })
   .use(authPlugin)
 
-  .get("/me", async ({ set, user }) => {
-    return user;
-  });
+  .get("/me", async ({ user }) => user);
