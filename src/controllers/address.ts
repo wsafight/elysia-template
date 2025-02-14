@@ -42,8 +42,8 @@ export const AddressController = new Elysia({ prefix: "/address" })
     {
       body: t.Object({
         id: t.Number(),
-        country: t.String(),
-        city: t.String(),
+        country: t.Optional(t.String()),
+        city: t.Optional(t.String()),
       }),
     },
   )

@@ -73,14 +73,7 @@ const buildUpdateStr = (
       if (!tType) {
         throw new Error("error tType");
       }
-      let current = "";
-      // 不是必须或者有默认值
-      if (!require || defaultVal) {
-        current = `${item}: t.Optional(t.${tType}())`;
-      } else {
-        current = `${item}: t.${tType}()`;
-      }
-      return current
+      return `${item}: t.Optional(t.${tType}())`;
     }).join(',');
     return `({ ${smallTypeName}Service, body: { id, ${keys.join(',')} }, user }) => {
         return ${smallTypeName}Service.update({ id, userId: user.id, ${keys.join(',')} });
