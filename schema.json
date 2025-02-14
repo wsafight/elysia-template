@@ -42,5 +42,23 @@
     },
     "createdTime": "time",
     "updatedTime": "time!"
+  },
+  "address": {
+    "id": "primaryKey",
+    "userId": {
+      "type": "number",
+      "require": true,
+      "index": "IDX_USERID"
+    },
+    "country": {
+      "type": "string",
+      "require": true
+    },
+    "city": {
+      "type": "string",
+      "require": true
+    },
+    "createdTime": "time",
+    "updatedTime": "time!"
   }
 }

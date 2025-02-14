@@ -4,7 +4,9 @@ import schema from "../../schema.json" with { type: "json" };
 import { buildControllerFile } from "./controller-file";
 import { buildServiceFile } from "./service-file";
 
-const [moduleName] = Bun.argv.slice(2);
+const [moduleName, removeTailCount = 1] = Bun.argv.slice(2);
+
+const fixedRemoveTailCount = -Number(removeTailCount) || 9999;
 
 if (!moduleName) {
   throw new Error("moduleName must exist");
@@ -20,10 +22,12 @@ if (!currentSchema) {
   throw new Error("currentSchema must exist");
 }
 
-const typeName = moduleName.charAt(0).toUpperCase() + moduleName.slice(1, -1);
+
+
+const typeName = moduleName.charAt(0).toUpperCase() + moduleName.slice(1, fixedRemoveTailCount);
 
 Bun.write(
-  `src/services/${moduleName.slice(0, -1)}.ts`,
+  `src/services/${moduleName.slice(0, fixedRemoveTailCount)}.ts`,
   buildServiceFile(moduleName, typeName, currentSchema),
 );
 
@@ -40,7 +44,7 @@ if (!indexServiceFileStr.includes(addText)) {
 }
 
 Bun.write(
-  `src/controllers/${moduleName.slice(0, -1)}.ts`,
+  `src/controllers/${moduleName.slice(0, fixedRemoveTailCount)}.ts`,
   buildControllerFile(moduleName, typeName, currentSchema),
 );
 
