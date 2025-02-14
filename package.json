@@ -9,8 +9,8 @@
     "drizzle:push": "drizzle-kit push",
     "studio": "npx drizzle-kit studio",
     "format": "bunx biome check --write src/* ",
-    "gen:schema": "bun run scripts/gen-schema.ts",
-    "gen:route": "bun run scripts/gen-route/index.ts"
+    "gen:schemas": "bun run scripts/gen-schemas.ts",
+    "gen:api": "bun run scripts/gen-api/index.ts"
   },
   "dependencies": {
     "@elysiajs/cors": "1.2.0",

@@ -22,7 +22,7 @@ const buildListFunStr = (
       offset: pageSize * (pageNumber - 1),
     });
   }
-        `;
+  `;
 };
 
 const buildAddFunStr = (
