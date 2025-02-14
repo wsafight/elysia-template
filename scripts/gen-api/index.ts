@@ -39,7 +39,7 @@ const indexServiceFileStr = await indexServiceFile.text()
 if (!indexServiceFileStr.includes(addText)) {
     await appendFile(
         "src/services/index.ts",
-        `export { ${typeName}Service } from './${moduleName}'`,
+        `export { ${typeName}Service } from './${moduleName.slice(0, fixedRemoveTailCount)}'`,
       );
 }
 

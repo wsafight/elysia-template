@@ -48,3 +48,18 @@ export const address = sqliteTable(
   },
   (t) => [index("IDX_USERID").on(t.userId)],
 );
+
+export const departments = sqliteTable(
+  "departments",
+  {
+    id: integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
+    userId: integer({ mode: "number" }).notNull(),
+    country: text().notNull(),
+    city: text().notNull(),
+    createdTime: integer({ mode: "timestamp_ms" }).$defaultFn(() => new Date()),
+    updatedTime: integer({ mode: "timestamp_ms" })
+      .$defaultFn(() => new Date())
+      .$onUpdateFn(() => new Date()),
+  },
+  (t) => [index("IDX_USERID").on(t.userId)],
+);
