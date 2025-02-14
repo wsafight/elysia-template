@@ -1,0 +1,28 @@
+{
+  "users": {
+    "_wrapper": "users",
+    "id": "primaryKey",
+    "name": {
+      "type": "string",
+      "require": true,
+      "index": "IDX_NAME"
+    },
+    "nickName": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string",
+      "require": true
+    },
+    "role": {
+      "type": "enum",
+      "list": ["guest", "user", "admin"],
+      "default": "guest"
+    },
+    "email": {
+      "type": "string",
+      "require": true,
+      "uniqueIndex": "IDX_EMAIL"
+    }
+  }
+}

@@ -7,6 +7,7 @@ import { setupCors, setupHelmet, setupJwt } from "./plugins";
 const bootstrap = () => {
   const app = new Elysia();
 
+  // 开发模式插件
   setupDevPlugins(app);
 
   app.get("/health", () => "ok");

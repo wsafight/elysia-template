@@ -62,11 +62,12 @@ export const userController = new Elysia({ prefix: "/user" })
       }),
     },
   )
-  .use(authPlugin)
   .post("/logout", async ({ cookie: { accessToken } }) => {
     accessToken.remove();
     return "Successfully logged out";
   })
+  .use(authPlugin)
+
   .get("/me", async ({ set, user }) => {
     return user;
   });

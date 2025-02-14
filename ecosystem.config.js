@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "server",
-      script: "./node-sqlite.mjs",
+      script: "./server",
       watch: false,
       instances: 1,
       autorestart: true,

@@ -6,11 +6,6 @@ import {
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 
-const userExt = {
-  createdUser: integer({ mode: "number" }),
-  updatedUser: integer({ mode: "number" }),
-};
-
 /**
  * This is a simple schema for a user table.
  */
@@ -24,7 +19,7 @@ export const users = sqliteTable(
     role: text().$type<"guest" | "user" | "admin">().default("guest"),
     email: text().notNull(),
   },
-  (t) => [index("IDX_name").on(t.name), uniqueIndex("IDX_email").on(t.email)],
+  (t) => [index("IDX_NAME").on(t.name), uniqueIndex("IDX_EMAIL").on(t.email)],
 );
 
 export const todos = sqliteTable(
