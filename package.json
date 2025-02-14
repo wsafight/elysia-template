@@ -14,12 +14,14 @@
     "@elysiajs/cors": "1.2.0",
     "@elysiajs/jwt": "1.2.0",
     "@elysiajs/opentelemetry": "1.2.0",
-    "@elysiajs/server-timing": "^1.2.0",
+    "@elysiajs/server-timing": "1.2.0",
     "@elysiajs/swagger": "1.2.0",
     "better-sqlite3": "11.8.1",
-    "drizzle-orm": "0.39.1",
-    "elysia": "1.2.11",
+    "drizzle-orm": "0.39.3",
+    "drizzle-typebox": "0.3.0",
+    "elysia": "1.2.12",
     "elysia-helmet": "2.0.0"
+
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
