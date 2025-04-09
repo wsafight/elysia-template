@@ -17,18 +17,18 @@
     "@elysiajs/cron": "1.2.0",
     "@elysiajs/jwt": "1.2.0",
     "@elysiajs/opentelemetry": "1.2.0",
-    "@elysiajs/server-timing": "1.2.0",
-    "@elysiajs/swagger": "1.2.0",
-    "better-sqlite3": "11.8.1",
-    "drizzle-orm": "0.39.3",
-    "drizzle-typebox": "0.3.0",
-    "elysia": "1.2.12",
+    "@elysiajs/server-timing": "1.2.1",
+    "@elysiajs/swagger": "1.2.2",
+    "better-sqlite3": "11.9.1",
+    "drizzle-orm": "0.41.0",
+    "drizzle-typebox": "0.3.1",
+    "elysia": "1.2.25",
     "elysia-helmet": "2.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "bun-types": "1.2.2",
-    "drizzle-kit": "0.30.4"
+    "bun-types": "1.2.9",
+    "drizzle-kit": "0.30.6"
   },
   "module": "src/index.ts"
 }
