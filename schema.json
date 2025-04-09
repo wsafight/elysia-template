@@ -1,10 +1,10 @@
 {
-  "users": {
+  "user": {
     "id": "primaryKey",
     "name": {
       "type": "string",
       "require": true,
-      "index": "IDX_NAME",
+      "index": "IDX_USER_NAME",
       "min": 3
     },
     "nickName": {
@@ -22,15 +22,15 @@
     "email": {
       "type": "string",
       "require": true,
-      "uniqueIndex": "IDX_EMAIL"
+      "uniqueIndex": "IDX_USER_EMAIL"
     }
   },
-  "todos": {
+  "todo": {
     "id": "primaryKey",
     "userId": {
       "type": "number",
       "require": true,
-      "index": "IDX_USERID"
+      "index": "IDX_TODO_USERID"
     },
     "description": {
       "type": "string",
@@ -48,7 +48,7 @@
     "userId": {
       "type": "number",
       "require": true,
-      "index": "IDX_USERID"
+      "index": "IDX_ADDRESS_USERID"
     },
     "country": {
       "type": "string",
@@ -61,12 +61,12 @@
     "createdTime": "time!",
     "updatedTime": "time!!"
   },
-  "departments": {
+  "department": {
     "id": "primaryKey",
     "userId": {
       "type": "number",
       "require": true,
-      "index": "IDX_USERID"
+      "index": "IDX_DEPARTMENT_USERID"
     },
     "country": {
       "type": "string",

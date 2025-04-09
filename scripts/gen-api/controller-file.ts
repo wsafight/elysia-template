@@ -1,4 +1,4 @@
-
+import { genImport } from "knitwork";
 // TODO
 const buildListStr = (
   smallTypeName: string,
@@ -94,10 +94,10 @@ export const buildControllerFile = (
 ) => {
   const smallTypeName = typeName.toLowerCase();
   return `
-  import { Elysia, t } from "elysia";
-  import { useSqlInstance } from "../lib/db";
-  import { authPlugin } from "../plugins/auth";
-  import { ${typeName}Service } from "../services";
+  ${genImport("elysia", ["Elysia", "t"])}
+  ${genImport("../lib/db", ["useSqlInstance"])}
+  ${genImport("../plugins/auth", ["authPlugin"])}
+  ${genImport("../services", [`${typeName}Service`])}
 
   export const ${typeName}Controller = new Elysia({ prefix: "/${typeName.toLocaleLowerCase()}" })
     .decorate("${smallTypeName}Service", new ${typeName}Service({ db: useSqlInstance() }))

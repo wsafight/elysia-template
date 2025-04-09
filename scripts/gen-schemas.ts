@@ -1,18 +1,12 @@
 import { EOL } from "node:os";
 import { $ } from "bun";
 import schema from "../schema.json" with { type: "json" };
+import { genImport } from "knitwork";
+
 
 // only support sqlite now
 
-const importContent = `
-import {
-  index,
-  integer,
-  sqliteTable,
-  text,
-  uniqueIndex,
-} from "drizzle-orm/sqlite-core";
-`;
+const importContent = genImport("drizzle-orm/sqlite-core", ["index", "integer", "sqliteTable", "text", "uniqueIndex"])
 
 const content = Object.keys(schema)
   .map((item: any) => {
@@ -83,6 +77,6 @@ const content = Object.keys(schema)
   })
   .join(EOL);
 
-await Bun.write("src/schema.ts", [importContent, content].join(""));
+await Bun.write("src/schema.ts", [importContent, content].join(EOL));
 
 await $`bun format`;

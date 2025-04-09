@@ -1,3 +1,5 @@
+import { genImport, genTypeImport } from "knitwork";
+
 const buildListFunStr = (
   moduleName: string,
   typeName: string,
@@ -122,9 +124,9 @@ export const buildServiceFile = (
   currentSchema: Record<string, any>,
 ) => {
   return `
-import { and, eq } from "drizzle-orm";
-import type { Sqlite } from "../lib/db";
-import { ${moduleName} } from "../schema";
+${genImport("drizzle-orm", ["and", "eq"])}
+${genTypeImport("../lib/db", ["Sqlite"])}
+${genImport("../schema", [moduleName])}
 
 type Select${typeName} = typeof ${moduleName}.$inferSelect;
 type Insert${typeName} = typeof ${moduleName}.$inferInsert;
