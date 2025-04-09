@@ -1,9 +1,9 @@
 import { and, eq } from "drizzle-orm";
 import type { Sqlite } from "../lib/db";
-import { departments } from "../schema";
+import { department } from "../schema";
 
-type SelectDepartment = typeof departments.$inferSelect;
-type InsertDepartment = typeof departments.$inferInsert;
+type SelectDepartment = typeof department.$inferSelect;
+type InsertDepartment = typeof department.$inferInsert;
 type UpdateDepartment = InsertDepartment & { id: number };
 
 class DepartmentService {
@@ -21,8 +21,8 @@ class DepartmentService {
     pageNumber: number;
     userId: number;
   }): Promise<SelectDepartment[]> {
-    return this.db.query.departments.findMany({
-      where: (departments, { eq }) => eq(departments.userId, userId),
+    return this.db.query.department.findMany({
+      where: (department, { eq }) => eq(department.userId, userId),
       limit: pageSize,
       offset: pageSize * (pageNumber - 1),
     });
@@ -30,13 +30,13 @@ class DepartmentService {
 
   public add({ userId, country, city }: InsertDepartment) {
     return this.db
-      .insert(departments)
+      .insert(department)
       .values({
         userId,
         country,
         city,
       })
-      .returning({ id: departments.id });
+      .returning({ id: department.id });
   }
 
   public update({ id, userId, country, city }: UpdateDepartment) {
@@ -55,9 +55,9 @@ class DepartmentService {
     }
 
     return this.db
-      .update(departments)
+      .update(department)
       .set(changed)
-      .where(and(eq(departments.userId, userId), eq(departments.id, id)));
+      .where(and(eq(department.userId, userId), eq(department.id, id)));
   }
 
   public delete({
@@ -68,8 +68,8 @@ class DepartmentService {
     userId: number;
   }) {
     return this.db
-      .delete(departments)
-      .where(and(eq(departments.id, id), eq(departments.userId, userId)))
+      .delete(department)
+      .where(and(eq(department.id, id), eq(department.userId, userId)))
       .limit(1);
   }
 }

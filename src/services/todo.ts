@@ -1,9 +1,9 @@
 import { and, eq } from "drizzle-orm";
 import type { Sqlite } from "../lib/db";
-import { todos } from "../schema";
+import { todo } from "../schema";
 
-type SelectTodo = typeof todos.$inferSelect;
-type InsertTodo = typeof todos.$inferInsert;
+type SelectTodo = typeof todo.$inferSelect;
+type InsertTodo = typeof todo.$inferInsert;
 type UpdateTodo = InsertTodo & { id: number };
 
 class TodoService {
@@ -21,8 +21,8 @@ class TodoService {
     pageNumber: number;
     userId: number;
   }): Promise<SelectTodo[]> {
-    return this.db.query.todos.findMany({
-      where: (todos, { eq }) => eq(todos.userId, userId),
+    return this.db.query.todo.findMany({
+      where: (todo, { eq }) => eq(todo.userId, userId),
       limit: pageSize,
       offset: pageSize * (pageNumber - 1),
     });
@@ -30,13 +30,13 @@ class TodoService {
 
   public add({ userId, description, isDone }: InsertTodo) {
     return this.db
-      .insert(todos)
+      .insert(todo)
       .values({
         userId,
         description,
         isDone,
       })
-      .returning({ id: todos.id });
+      .returning({ id: todo.id });
   }
 
   public update({ id, userId, description, isDone }: UpdateTodo) {
@@ -55,9 +55,9 @@ class TodoService {
     }
 
     return this.db
-      .update(todos)
+      .update(todo)
       .set(changed)
-      .where(and(eq(todos.userId, userId), eq(todos.id, id)));
+      .where(and(eq(todo.userId, userId), eq(todo.id, id)));
   }
 
   public delete({
@@ -68,8 +68,8 @@ class TodoService {
     userId: number;
   }) {
     return this.db
-      .delete(todos)
-      .where(and(eq(todos.id, id), eq(todos.userId, userId)))
+      .delete(todo)
+      .where(and(eq(todo.id, id), eq(todo.userId, userId)))
       .limit(1);
   }
 }

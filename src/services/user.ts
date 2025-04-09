@@ -1,6 +1,5 @@
 import type { Sqlite } from "../lib/db";
-import type { Register } from "../model/auth";
-import { users } from "../schema";
+import { user } from "../schema";
 
 class UserService {
   private db: Sqlite;
@@ -9,8 +8,8 @@ class UserService {
   }
 
   public getUser(id: string) {
-    return this.db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, Number(id)),
+    return this.db.query.user.findFirst({
+      where: (user, { eq }) => eq(user.id, Number(id)),
       columns: {
         password: false, //ignored
       },
@@ -22,8 +21,8 @@ class UserService {
   }: {
     email: string;
   }) {
-    return this.db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.email, email),
+    return this.db.query.user.findFirst({
+      where: (user, { eq }) => eq(user.email, email),
       columns: {
         id: true,
         email: true,
@@ -37,8 +36,8 @@ class UserService {
   }: {
     email: string;
   }): Promise<boolean> {
-    const current = await this.db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.email, email),
+    const current = await this.db.query.user.findFirst({
+      where: (user, { eq }) => eq(user.email, email),
       columns: {
         id: true,
       },
@@ -46,9 +45,17 @@ class UserService {
     return !!current?.id;
   }
 
-  public createUser({ name, email, password }: Register) {
+  public createUser({
+    name,
+    email,
+    password,
+  }: {
+    name: string;
+    email: string;
+    password: string;
+  }) {
     return this.db
-      .insert(users)
+      .insert(user)
       .values({
         name,
         email,
@@ -56,7 +63,7 @@ class UserService {
         role: "guest",
         nickName: "",
       })
-      .returning({ id: users.id });
+      .returning({ id: user.id });
   }
 
   public deleteUser(id: string) {
