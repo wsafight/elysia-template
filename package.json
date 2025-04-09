@@ -4,7 +4,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
-    "build": "bun run scripts/build.ts",
+    "build:os": "bun run scripts/build.ts",
     "build:linux": "target=linux bun run scripts/build.ts",
     "drizzle:push": "drizzle-kit push",
     "studio": "npx drizzle-kit studio",
